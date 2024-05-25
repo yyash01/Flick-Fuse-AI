@@ -8,3 +8,7 @@
 ---
 
 ![Landing Page](image.png)
+
+---
+
+![Search Result View](image-2.png)
