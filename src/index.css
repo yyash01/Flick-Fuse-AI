@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .scrollbar::-webkit-scrollbar {
+        padding: 2px;
+        height: 5px;
+        width : 5px;
+        border-radius: 6px;
+      }
+      .scrollbar::-webkit-scrollbar-track {
+        padding: 2px;
+        background-color: grey; /* Transparent background for the track */
+        opacity: 0.5;
+        border-radius: 6px; /* Rounded corners */
+      }
+      .scrollbar::-webkit-scrollbar-thumb {
+        opacity: 0; /* Hide scrollbar thumb initially */
+        background-color: rgba(0, 0, 0, 0.7); /* Dark color with 60% opacity */
+        border-radius: 6px;
+      }
+      .scrollbar:hover::-webkit-scrollbar-thumb {
+        opacity: 1; /* Show scrollbar thumb on hover */
+      }
+     
+  }
