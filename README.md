@@ -1,4 +1,4 @@
-# Flick Fuse
+# Flick Fuse - AI Based Movie Suggestion System
 
 - "FlickFuse" combines "Flick," a casual term for a movie or film,
 - "Fuse," suggesting a merging or combining of elements
