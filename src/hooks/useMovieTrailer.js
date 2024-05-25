@@ -28,8 +28,6 @@ const useMovieTrailer = (movieId) => {
       TMDBApiOptions
     );
     const movieData = await data.json();
-
-    //Filter According to the Type that will be === "Trailer" and store it in the redux-store
     filterMovieTrailer(movieData.results);
   };
 

@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import useMovieTrailer from "../hooks/useMovieTrailer";
 
 const MoviePlayer = ({ movieId }) => {
-  //Now I will fetch the movieTrailer Data from the Redux-store
   useMovieTrailer(movieId);
   const trailerVideo = useSelector((state) => state.movies?.trailerVideo);
 

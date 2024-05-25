@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-} from "firebase/auth"; //using API -> createUserWithEmailAndPassword
+} from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
@@ -15,24 +15,17 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
 
-  //lets create two ref variable
   const email = useRef(null);
-  const password = useRef(null); // attach these ref variable with ref-attribute of input box
+  const password = useRef(null);
   const name = useRef(null);
 
   const handleButtonClick = () => {
-    //perform actions according to signIn or signUp.
-    //but before that we have to validate the input of the form.
-    //inside the utils- we will add validate.js => where we will write the validation logic
     const message = checkValidData(email.current.value, password.current.value);
 
     if (!message) {
-      //if message is null => the email and password are valid
       if (!isSignInForm) {
-        //SignUp
         createNewUser(email.current.value, password.current.value);
       } else {
-        //SignIn
         signInUser(email.current.value, password.current.value);
       }
     } else {
@@ -63,7 +56,6 @@ const Login = () => {
   const createNewUser = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed up
         const user = userCredential.user;
         console.log(user);
         updateUserData(user);
@@ -78,7 +70,6 @@ const Login = () => {
   const signInUser = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
         console.log("success : ", user);
         setErrorMessage("");

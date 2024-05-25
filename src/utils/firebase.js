@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBMvv59rK3x0JSXKWj94LVees8qhCCfyok",
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: "flickfuse-1abca.firebaseapp.com",
   projectId: "flickfuse-1abca",
   storageBucket: "flickfuse-1abca.appspot.com",

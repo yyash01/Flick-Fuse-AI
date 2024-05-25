@@ -16,7 +16,6 @@ const useAiSearch = () => {
   };
 
   const handleAiSearch = async (searchText) => {
-    // console.log(searchText.current.value);
     const promptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
       searchText +

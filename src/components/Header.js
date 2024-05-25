@@ -20,15 +20,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    //all my user Store updates - from one place
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in or Singed Up
         const { uid, email, displayName } = user;
         dispatch(addUser({ uid, email, displayName }));
         navigate("/browse");
       } else {
-        // User is signed out
         dispatch(removeUser());
         navigate("/");
       }
