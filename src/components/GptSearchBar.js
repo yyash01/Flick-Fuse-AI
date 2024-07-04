@@ -1,7 +1,8 @@
 import labels from "../utils/labels";
-import { useRef, useState } from "react";
-import MovieResultModal from "./MovieResultModal";
+import { useRef, useState, lazy, Suspense } from "react";
 import useAiSearch from "../hooks/useAiSearch";
+
+const MovieResultModal = lazy(() => import("./MovieResultModal"));
 
 const GptSearchBar = () => {
   const [isModalActive, setIsModalActive] = useState(false);
@@ -23,7 +24,9 @@ const GptSearchBar = () => {
 
   return (
     <div>
-      {isModalActive && <MovieResultModal onClose={handleModalClick} />}
+      <Suspense fallback={<div>loading...</div>}>
+        {isModalActive && <MovieResultModal onClose={handleModalClick} />}
+      </Suspense>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="absolute right-[40%] p-1">
           <button
