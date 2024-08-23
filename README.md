@@ -5,12 +5,16 @@
 - A AI Based Movie Suggestion System
 - Built on Top Of Gemini AI
 
----
+## Login Page
 
-![Landing Page](image.png)
+![Login Page](proof-of-work/login-page.png)
 
----
+## Landing Page
 
-![Search Result View](image-2.png)
+![Landing Page](proof-of-work/image.png)
+
+## Search Result View
+
+![Search Result View](proof-of-work/image-2.png)
 
 MovieMapper
