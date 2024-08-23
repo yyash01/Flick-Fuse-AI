@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { TMDBApiOptions } from "../utils/constant";
 import genAI from "../utils/geminiAi";
 import { addAiMovieResult } from "../utils/moviesSlice";
+import { notifyError } from "../utils/error";
 
 const useAiSearch = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,6 @@ const useAiSearch = () => {
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
       searchText +
       ". only give me names of 5 movies, in a comma seprated way like : movie1,movie2,movie3";
-    console.log(promptQuery);
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const result = await model.generateContent(promptQuery);
@@ -28,6 +28,7 @@ const useAiSearch = () => {
 
     if (!res.candidates) {
       //TODO Error Handling - No response from AI , API failed
+      notifyError("Suggestion Not Available");
     }
 
     const aiResponse = res.candidates?.[0].content?.parts?.[0]?.text;

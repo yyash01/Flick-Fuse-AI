@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import Header from "./Header";
 import { checkValidData } from "../utils/validate";
 import { auth } from "../utils/firebase";
 import {
@@ -9,10 +8,15 @@ import {
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { notifyError, notifyFirebaseError } from "../utils/error";
+import landingLogo from "../assets/img/landing-page.png";
+import logoSecond from "../assets/img/landing-page-2.png";
+import logoThird from "../assets/img/landing-page-3.png";
+import labels from "../utils/labels";
+import AuthStateChange from "./AuthStateChange";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
 
   const email = useRef(null);
@@ -29,7 +33,7 @@ const Login = () => {
         signInUser(email.current.value, password.current.value);
       }
     } else {
-      setErrorMessage(message);
+      notifyError(message);
     }
   };
 
@@ -46,14 +50,18 @@ const Login = () => {
             displayName,
           })
         );
-        setErrorMessage("");
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        notifyFirebaseError(error.code);
       });
   };
 
   const createNewUser = (email, password) => {
+    if (!name.current.value || !email || !password) {
+      notifyError("All Fields are Necessary");
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -61,9 +69,9 @@ const Login = () => {
         updateUserData(user);
       })
       .catch((error) => {
+        console.log("new user Error", error);
         const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMessage(errorCode + " " + errorMessage);
+        notifyFirebaseError(errorCode);
       });
   };
 
@@ -72,114 +80,170 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("success : ", user);
-        setErrorMessage("");
       })
       .catch((error) => {
+        console.log(error);
         const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMessage(errorCode + " " + errorMessage);
+        notifyFirebaseError(errorCode);
       });
   };
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
-    setErrorMessage("");
   };
 
   return (
-    <div>
-      <Header />
-      <div className="flex justify-center mx-auto left-0 right-0 px-10 py-10">
-        <div className="flex min-h-full flex-col justify-center px-6 py-12 min-w-[50%] bg-white border border-gray-200 rounded-lg shadow">
-          <div>
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              {isSignInForm ? "Sign in to your account" : "Create your account"}
-            </h2>
-          </div>
+    <div style={{ height: "100vh" }}>
+      <AuthStateChange />
+      <div
+        className="login-body"
+        style={{ display: "flex", alignItems: "center", height: "100%" }}
+      >
+        {/* className="flex justify-center mx-auto left-0 right-0 px-10 py-10" */}
+        <div
+          style={{
+            width: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div className="px-6 py-12 w-[70%]">
+            <div>
+              <h2 className="text-3xl font-sans font-medium">
+                {"Hi there 👋"}
+              </h2>
+              <h2 className="text-xl font-sans text-gray-500">
+                {isSignInForm ? labels.signIn : labels.signUp}
+              </h2>
+            </div>
 
-          <div className="mt-10">
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-              {!isSignInForm && (
+            <div className="mt-10">
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+                {!isSignInForm && (
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                        FullName
+                      </label>
+                    </div>
+                    <div className="mt-2">
+                      <input
+                        id="fullName"
+                        name="fullName"
+                        type="text"
+                        required
+                        ref={name}
+                        className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                )}
+                {/* Email Field */}
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Email
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      ref={email}
+                      className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                    />
+                  </div>
+                </div>
+                {/* Password Field */}
                 <div>
                   <div className="flex items-center justify-between">
                     <label className="block text-sm font-medium leading-6 text-gray-900">
-                      Name
+                      Password
                     </label>
                   </div>
                   <div className="mt-2">
                     <input
-                      id="fullName"
-                      name="fullName"
-                      type="text"
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
                       required
-                      ref={name}
+                      ref={password}
                       className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
-              )}
-              {/* Email Field */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                {/* Submit button */}
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={handleButtonClick}
+                  >
+                    {isSignInForm ? "Sign in" : "Sign Up"}
+                  </button>
+                </div>
+              </form>
+              <div className="mt-2 text-sm">
+                <p
+                  onClick={toggleSignInForm}
+                  className="cursor-pointer font-semibold text-indigo-600 hover:text-indigo-400"
                 >
-                  Email address
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    ref={email}
-                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-                  />
-                </div>
+                  {isSignInForm
+                    ? "New to Flick Fuse ? Sign Up"
+                    : "Already have an Account? Sign In"}
+                </p>
               </div>
-              {/* Password Field */}
-              <div>
-                <div className="flex items-center justify-between">
-                  <label className="block text-sm font-medium leading-6 text-gray-900">
-                    Password
-                  </label>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    ref={password}
-                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-              <p className="text-red-500 text-lg font-bold">{errorMessage}</p>
-              {/* Submit button */}
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  onClick={handleButtonClick}
-                >
-                  {isSignInForm ? "Sign in" : "Sign Up"}
-                </button>
-              </div>
-            </form>
-            <div className="mt-10 text-sm">
-              <p
-                onClick={toggleSignInForm}
-                className="cursor-pointer font-semibold text-indigo-600 hover:text-indigo-400"
-              >
-                {isSignInForm
-                  ? "New to Flick Fuse ? Sign Up"
-                  : "Already have an Account? Sign In"}
-              </p>
             </div>
           </div>
+        </div>
+        <div
+          className="landing-img"
+          style={{
+            width: "50%",
+            position: "relative",
+            height: "100%",
+            backgroundColor: "#babaee8c",
+          }}
+        >
+          <img
+            src={landingLogo}
+            alt="landing"
+            style={{
+              borderRadius: "10%",
+              position: "absolute",
+              top: "120px",
+              width: "280px",
+              left: "50px",
+            }}
+          ></img>
+          <img
+            src={logoSecond}
+            alt="landing"
+            style={{
+              borderRadius: "10%",
+              position: "absolute",
+              top: "350px",
+              width: "280px",
+              left: "218px",
+            }}
+          ></img>
+          <img
+            src={logoThird}
+            alt="landing"
+            style={{
+              borderRadius: "10%",
+              position: "absolute",
+              top: "120px",
+              width: "280px",
+              left: "354px",
+            }}
+          ></img>
         </div>
       </div>
     </div>

@@ -1,15 +1,12 @@
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { addUser, removeUser } from "../utils/userSlice";
 import GptSearchBar from "./GptSearchBar";
+import AuthStateChange from "./AuthStateChange";
 
 const Header = () => {
-  const navigate = useNavigate();
   const user = useSelector((store) => store.user);
-  const dispatch = useDispatch();
 
   const handleSignOut = () => {
     signOut(auth)
@@ -19,24 +16,9 @@ const Header = () => {
       });
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { uid, email, displayName } = user;
-        dispatch(addUser({ uid, email, displayName }));
-        navigate("/browse");
-      } else {
-        dispatch(removeUser());
-        navigate("/");
-      }
-    });
-
-    //unsubscribe the onAuthStateChange Callback
-    return () => unsubscribe();
-  }, []);
-
   return (
     <div className="sticky bg-white z-50 rounded top-0 backdrop-blur w-full">
+      <AuthStateChange />
       <header>
         <nav
           className="flex items-center justify-between p-4 lg:px-8"

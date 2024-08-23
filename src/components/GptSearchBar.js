@@ -1,7 +1,6 @@
 import labels from "../utils/labels";
 import { useRef, useState, lazy, Suspense } from "react";
 import useAiSearch from "../hooks/useAiSearch";
-
 const MovieResultModal = lazy(() => import("./MovieResultModal"));
 
 const GptSearchBar = () => {
@@ -12,9 +11,8 @@ const GptSearchBar = () => {
   const handleSearchClick = () => {
     let searchTextVal = searchText.current.value;
     if (!searchTextVal.length) return;
-
-    setIsModalActive(!isModalActive);
     handleAiSearch(searchText.current.value);
+    setIsModalActive(!isModalActive);
   };
 
   const handleModalClick = (isModalOpen) => {
@@ -24,7 +22,7 @@ const GptSearchBar = () => {
 
   return (
     <div>
-      <Suspense fallback={<div>loading...</div>}>
+      <Suspense fallback={<div></div>}>
         {isModalActive && <MovieResultModal onClose={handleModalClick} />}
       </Suspense>
       <form onSubmit={(e) => e.preventDefault()}>
