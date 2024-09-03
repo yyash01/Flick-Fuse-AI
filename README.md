@@ -11,7 +11,7 @@
 
 ## Landing Page
 
-![Landing Page](proof-of-work/image.png)
+![Landing Page](proof-of-work/final-pic.png)
 
 ## Search Result View
 
