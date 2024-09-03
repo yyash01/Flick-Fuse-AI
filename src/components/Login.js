@@ -8,7 +8,11 @@ import {
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { notifyError, notifyFirebaseError } from "../utils/error";
+import {
+  notifyError,
+  notifyFirebaseError,
+  notifySuccess,
+} from "../utils/toast";
 import landingLogo from "../assets/img/landing-page.png";
 import logoSecond from "../assets/img/landing-page-2.png";
 import logoThird from "../assets/img/landing-page-3.png";
@@ -42,6 +46,7 @@ const Login = () => {
       displayName: name.current.value,
     })
       .then(() => {
+        notifySuccess("Account Created Successfully");
         const { uid, email, displayName } = auth.currentUser;
         dispatch(
           addUser({
@@ -93,21 +98,10 @@ const Login = () => {
   };
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div className="h-screen">
       <AuthStateChange />
-      <div
-        className="login-body"
-        style={{ display: "flex", alignItems: "center", height: "100%" }}
-      >
-        {/* className="flex justify-center mx-auto left-0 right-0 px-10 py-10" */}
-        <div
-          style={{
-            width: "50%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+      <div className="login-body flex items-center h-full">
+        <div className="w-1/2 flex items-center justify-center">
           <div className="px-6 py-12 w-[70%]">
             <div>
               <h2 className="text-3xl font-sans font-medium">
@@ -134,7 +128,7 @@ const Login = () => {
                         type="text"
                         required
                         ref={name}
-                        className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -155,7 +149,7 @@ const Login = () => {
                       autoComplete="email"
                       required
                       ref={email}
-                      className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                      className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -174,7 +168,7 @@ const Login = () => {
                       autoComplete="current-password"
                       required
                       ref={password}
-                      className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -202,47 +196,21 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div
-          className="landing-img"
-          style={{
-            width: "50%",
-            position: "relative",
-            height: "100%",
-            backgroundColor: "#babaee8c",
-          }}
-        >
+        <div className="landing-img w-1/2 relative h-full bg-[#babaee8c]">
           <img
             src={landingLogo}
             alt="landing"
-            style={{
-              borderRadius: "10%",
-              position: "absolute",
-              top: "120px",
-              width: "280px",
-              left: "50px",
-            }}
+            className="rounded-[10%] absolute top-[120px] w-[280px] left-[50px]"
           ></img>
           <img
             src={logoSecond}
             alt="landing"
-            style={{
-              borderRadius: "10%",
-              position: "absolute",
-              top: "350px",
-              width: "280px",
-              left: "218px",
-            }}
+            className="rounded-[10%] absolute top-[350px] w-[280px] left-[218px]"
           ></img>
           <img
             src={logoThird}
             alt="landing"
-            style={{
-              borderRadius: "10%",
-              position: "absolute",
-              top: "120px",
-              width: "280px",
-              left: "354px",
-            }}
+            className="rounded-[10%] absolute top-[120px] w-[280px] left-[354px]"
           ></img>
         </div>
       </div>

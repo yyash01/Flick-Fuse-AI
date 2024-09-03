@@ -1,5 +1,6 @@
 import labels from "../utils/labels";
 import { useRef, useState, lazy, Suspense } from "react";
+import { IoIosSearch } from "react-icons/io";
 import useAiSearch from "../hooks/useAiSearch";
 const MovieResultModal = lazy(() => import("./MovieResultModal"));
 
@@ -25,22 +26,23 @@ const GptSearchBar = () => {
       <Suspense fallback={<div></div>}>
         {isModalActive && <MovieResultModal onClose={handleModalClick} />}
       </Suspense>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="absolute right-[40%] p-1">
-          <button
-            className="rounded-md bg-blue-500 py-[2px] px-3 font-medium text-white"
-            onClick={handleSearchClick}
-          >
-            {labels.search}
-          </button>
-        </div>
+      <form
+        className="h-full w-full flex items-center justify-center"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <input
           type="text"
           name="gpt-search"
-          className="w-[400px] rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+          className="w-full sm:w-64 md:w-80 lg:w-96 rounded-l-lg border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-blue-500 focus:outline-none"
           placeholder={labels.gptSearchPlaceholder}
           ref={searchText}
         />
+        <button
+          className="h-full p-2 rounded-r-md bg-blue-500 font-medium text-white"
+          onClick={handleSearchClick}
+        >
+          <IoIosSearch className="h-5 w-5" />
+        </button>
       </form>
     </div>
   );

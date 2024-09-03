@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { TMDBApiOptions } from "../utils/constant";
-import genAI from "../utils/geminiAi";
+import genAI from "../utils/ai/geminiAi";
 import { addAiMovieResult } from "../utils/moviesSlice";
-import { notifyError } from "../utils/error";
+import { notifyError } from "../utils/toast";
 
 const useAiSearch = () => {
   const dispatch = useDispatch();
