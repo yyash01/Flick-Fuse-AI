@@ -28,7 +28,7 @@ const useAiSearch = () => {
 
     if (!res.candidates) {
       //TODO Error Handling - No response from AI , API failed
-      notifyError("Suggestion Not Available");
+      notifyError("No Suggestions Available");
     }
 
     const aiResponse = res.candidates?.[0].content?.parts?.[0]?.text;

@@ -24,6 +24,10 @@ const moviesSlice = createSlice({
       state.aiMovieNames = movieNames;
       state.aiMovieResult = movieResults;
     },
+    clearAiMovieResult: (state, action) => {
+      state.aiMovieNames = null;
+      state.aiMovieResult = null;
+    },
   },
 });
 
@@ -32,6 +36,7 @@ export const {
   addTrailerVideo,
   addPopularMovies,
   addAiMovieResult,
+  clearAiMovieResult,
 } = moviesSlice.actions;
 
 export default moviesSlice.reducer; //exporting the reducer

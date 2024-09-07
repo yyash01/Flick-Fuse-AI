@@ -6,15 +6,19 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { useSelector } from "react-redux";
+import Skeleton from "./Skeleton";
+import { useSelector, useDispatch } from "react-redux";
 import MovieList from "./MovieList";
+import { clearAiMovieResult } from "../utils/moviesSlice";
 
 export default function MovieResultModal({ onClose }) {
+  const dispatch = useDispatch();
   const open = true;
   const { aiMovieNames, aiMovieResult } = useSelector((store) => store.movies);
 
   const handleModalClose = () => {
     onClose(false);
+    dispatch(clearAiMovieResult());
   };
 
   return (
@@ -43,19 +47,17 @@ export default function MovieResultModal({ onClose }) {
             >
               <DialogPanel className="w-[70%] h-[80%] overflow-y-scroll scrollbar transform rounded-lg shadow-xl bg-black bg-opacity-90">
                 <div className="">
-                  <div className="">
-                    {!aiMovieNames ? (
-                      <h1>Hello Yash</h1>
-                    ) : (
-                      aiMovieNames.map((movieName, index) => (
-                        <MovieList
-                          key={movieName}
-                          title={movieName}
-                          movies={aiMovieResult[index]}
-                        />
-                      ))
-                    )}
-                  </div>
+                  {!aiMovieNames ? (
+                    <Skeleton />
+                  ) : (
+                    aiMovieNames.map((movieName, index) => (
+                      <MovieList
+                        key={movieName}
+                        title={movieName}
+                        movies={aiMovieResult[index]}
+                      />
+                    ))
+                  )}
                 </div>
               </DialogPanel>
             </TransitionChild>
