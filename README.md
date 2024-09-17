@@ -9,6 +9,10 @@
 
 ![Login Page](proof-of-work/login-page.png)
 
+## Demo Video for Search Bar Auto Suggestion Feature
+
+<video src="https://github.com/user-attachments/assets/f56fbfa1-0412-42e5-8ba8-97d1beca58a3" autoplay />
+
 ## Landing Page
 
 ![Landing Page](proof-of-work/final-pic.png)
